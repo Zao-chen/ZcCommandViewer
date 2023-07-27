@@ -48,11 +48,10 @@
     <TextView
         android:id="@+id/textView"
         android:layout_below="@id/edt_des"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:layout_centerHorizontal="true"
-        tools:text="解析内容：待输入json"
-        android:text="TextView" />
+        android:text="解析内容：待输入json" />
 
 </RelativeLayout>

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity()
             val jsonver = jsonObject.getString("jsonversion")
             val mcver = jsonObject.getString("mcversion")
             //显示解析结果
-            text.setText("解析出指令组详细：\n作者: $name\njson版本：$jsonver\nmc版本：$mcver")
+            text.setText("解析出指令组详情：\n作者: $name\njson版本：$jsonver\nmc版本：$mcver")
 
         } catch (e: Exception) {
             e.printStackTrace()
