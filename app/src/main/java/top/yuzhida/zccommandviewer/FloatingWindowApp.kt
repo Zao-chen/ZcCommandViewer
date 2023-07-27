@@ -25,27 +25,23 @@ class FloatingWindowApp : Service(){
     private lateinit var btnmax: Button
     private var json: String? = ""
 
-
-    fun parseJson(jsonString: String) {
+    /*解析和显示json*/
+    fun parseJson(jsonString: String)
+    {
         try {
             val jsonObject = JSONObject(jsonString)
-
             // 读取特定的字段
             val name = jsonObject.getString("author")
-
             // 处理数据（例如显示在界面上）
             Log.e("","Name: $name")
-
             // 可以使用 optString、optInt 等方法来避免解析错误导致的崩溃
             val address = jsonObject.optString("address")
-
             // 处理空字段
             if (address.isNullOrEmpty()) {
                 println("No address available")
             } else {
                 println("Address: $address")
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -57,32 +53,21 @@ class FloatingWindowApp : Service(){
         return null
     }
 
+    /*界面创建时事件*/
     override fun onCreate() {
         super.onCreate()
-
-        val metrics = applicationContext.resources.displayMetrics
-        val width = metrics.widthPixels
-        val height = metrics.heightPixels
-
+        /*相关创建*/
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-
         val inflater = baseContext.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
         floatView = inflater.inflate(R.layout.floating_layout,null) as ViewGroup
-
         btnmax = floatView.findViewById(R.id.btnMax)
-        //edtDes = floatView.findViewById(R.id.edt_des2)
-
-        //edtDes.setText(currDes) //读取存下来的json
-        //edtDes.setSelection(edtDes.text.toString().length)
-        //edtDes.isCursorVisible = false
-
+        /*Android版本判断以创建悬浮窗*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             LAYOUT_TYPR = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
             LAYOUT_TYPR = WindowManager.LayoutParams.TYPE_PHONE
         }
-
+        /*悬浮窗设定*/
         floatWindowLayoutParams = WindowManager.LayoutParams(
             700 ,
             600,
@@ -90,15 +75,11 @@ class FloatingWindowApp : Service(){
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
-
         floatWindowLayoutParams.gravity = Gravity.CENTER
         floatWindowLayoutParams.x = 0
         floatWindowLayoutParams.y = 0
-
+        /*添加悬浮窗*/
         windowManager.addView(floatView, floatWindowLayoutParams)
-
-        parseJson(jsonString)
-
         /*关闭悬浮窗*/
         btnmax.setOnClickListener {
             stopSelf()
@@ -115,7 +96,7 @@ class FloatingWindowApp : Service(){
             var px = 0.0
             var py = 0.0
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                when(event!!.action)
+                when(event!!.action) //移动算法
                 {
                     MotionEvent.ACTION_DOWN->{
                         x = updatedFloatingWindowLayoutParams.x.toDouble()
@@ -132,12 +113,9 @@ class FloatingWindowApp : Service(){
                 return false
             }
         })
-
-
-        /*json解析*/
-
     }
 
+    /*关闭悬浮窗事件*/
     override fun onDestroy() {
         super.onDestroy()
         stopSelf()
