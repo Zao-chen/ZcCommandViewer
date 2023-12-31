@@ -1,3 +1,5 @@
+由于本人技术不够，本项目暂停开发，重启时间未知。
+
 # ZcCommandViewer
 ZcCommandEditor的子项目ZcCommandViewer
 
